@@ -1,10 +1,11 @@
 const express=require('express')
 const expressLayouts=require('express-ejs-layouts')
 
-const app=express();
-const port=process.env.PORT || 3000
 
-require('dotenv').config();
+const app=express();
+
+
+
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
@@ -17,7 +18,4 @@ const routes=require('./server/routes/recipeRoutes.js')
 app.use('/',routes)
 
 
-
-app.listen(port,()=>{
-  console.log(`${port}-port eshitishni boshladi`) 
-})
+module.exports=app
