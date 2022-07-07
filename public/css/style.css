@@ -1,0 +1,15 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;500&display=swap');
+
+body{
+  font-family:'Rubik' ;
+  background-image: url("/img/i-like-food.svg");
+  background-color: rgb(243,243,243);
+}
+
+.container-xxl{
+  max-width: 1160px ;
+}
+a{
+  color: var();
+}
