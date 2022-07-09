@@ -57,10 +57,63 @@ const exploreCateg=async(req,res)=>{
   }
 }
 
+//////// get catigories by id
+
+const exploreCategById=async(req,res)=>{
+  try {
+
+    const id=req.params.id
+    const limitNumber=20;
+    const categoriesById=await recipeModel.find({'category':id}).limit(limitNumber)
+
+    res.render('categories',{title:'Cooking Blog - Categories',categoriesById})
+  } catch (error) {
+    res.status(500).json({
+       staus:"fail",
+       add:error.message
+    })
+  }
+}
+
+
+/////// get recipe id
+
+const getRecipeId=async(req,res)=>{
+  try {
+    let recipeId=req.params.id
+    let recipe=await recipeModel.findById(recipeId)
+  
+    res.render('recipe',{title:'Cooking Blog - Recipe',recipe})
+  } catch (error) {
+    res.status(500).json({
+       staus:"fail",
+       add:error.message
+    })
+  }
+}
+
+
+////// serach recipe
+
+const searchRecipe=async (req,res)=>{
+
+  try {
+
+    const searchTerm=req.body.searchTerm
+    const recipe=await recipeModel.find({$text:{$search:searchTerm,$diacriticSensitive:true}})   // savol
+    res.render('search',{title:"Cooking Blog - Search",recipe})
+    
+  } catch (error) {
+    res.status(500).json({
+      status:'fail',
+      add:error.message
+    })
+  }
+}
 
 
 
-module.exports={homepage,exploreCateg}
+module.exports={homepage,exploreCateg,getRecipeId,exploreCategById,searchRecipe}
 
 
 
@@ -116,7 +169,7 @@ module.exports={homepage,exploreCateg}
 //       [
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -128,7 +181,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -140,7 +193,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -152,7 +205,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -164,7 +217,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -176,7 +229,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -188,7 +241,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -200,7 +253,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -212,7 +265,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -224,7 +277,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -237,7 +290,7 @@ module.exports={homepage,exploreCateg}
 
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes . Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -249,7 +302,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -261,7 +314,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -273,7 +326,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -285,7 +338,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
@@ -297,7 +350,7 @@ module.exports={homepage,exploreCateg}
 //               },
 //               { 
 //                 "name": "Recipe Name Goes Here",
-//                 "description": `Recipe Description Goes Here`,
+//                 "description": `Recipe Description Goes Here. Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima vero fuga natus illum cupiditate. Delectus, sed dolor minus quaerat quam aliquam ea amet impedit quae. Optio alias dolor perspiciatis nulla ratione, neque quos, praesentium minima atque officiis sed nihil nam.`,
 //                 "email": "recipeemail@raddy.co.uk",
 //                 "ingredients": [
 //                   "1 level teaspoon baking powder",
