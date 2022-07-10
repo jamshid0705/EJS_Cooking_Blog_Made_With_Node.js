@@ -93,14 +93,13 @@ const getRecipeId=async(req,res)=>{
 }
 
 
-////// serach recipe
+////// search recipe
 
 const searchRecipe=async (req,res)=>{
 
   try {
-
     const searchTerm=req.body.searchTerm
-    const recipe=await recipeModel.find({$text:{$search:searchTerm,$diacriticSensitive:true}})   // savol
+    const recipe=await recipeModel.find({$name:{$search:searchTerm,$diacriticSensitive:true}})   // savol
     res.render('search',{title:"Cooking Blog - Search",recipe})
     
   } catch (error) {
@@ -112,8 +111,76 @@ const searchRecipe=async (req,res)=>{
 }
 
 
+////// get explore latest
 
-module.exports={homepage,exploreCateg,getRecipeId,exploreCategById,searchRecipe}
+const exploreLatest=async(req,res)=>{
+  try {
+   
+    const limitNumber=20
+    const recipe=await recipeModel.find({}).sort({_id:-1}).limit(limitNumber)
+    res.render('explore-latest',{title:'Cooking Blog - Explore-latest',recipe})
+  } catch (error) {
+    res.status(500).json({
+       staus:"fail",
+       add:error.message
+    })
+  }
+}
+
+
+/////// Explore random
+
+
+const exploreRandom=async(req,res)=>{
+  try {
+   
+    const con=await recipeModel.find().countDocuments()  //savol
+    const random=Math.floor(Math.random()*con)
+    const recipe=await recipeModel.findOne().skip(random).exec() // savol
+    res.render('explore-random',{title:'Cooking Blog - Explore-latest',recipe})
+  } catch (error) {
+    res.status(500).json({
+       staus:"fail",
+       add:error.message
+    })
+  }
+}
+
+
+////// Submit Recipe get
+
+const submitRecipe=async(req,res)=>{
+  const infoErrorsObj=req.flash('infoErrors')  // savol
+  const infoSubmitObj=req.flash('infoSubmit')  // savol
+  res.render('submit-recipe',{title:'Cooking Blog - Submit-recipe',infoErrorsObj,infoSubmitObj})
+}
+
+//// Submit Recipe post
+
+const submitRecipeOnPost=async(req,res)=>{
+  try {
+
+    const newRecipe = new recipeModel({
+      name: req.body.name,
+      description: req.body.description,
+      email: req.body.email,
+      ingredients: req.body.ingredients,
+      category: req.body.category,
+      image:req.body.image
+    });
+    
+    await newRecipe.save();
+    req.flash('infoSubmit','Recipe has been added')
+    res.redirect('/submit-recipe')
+  } catch (error) {
+    req.flash('infoErrors',error)
+    res.redirect('/submit-recipe')
+  }
+  
+}
+
+
+module.exports={homepage,exploreCateg,getRecipeId,exploreCategById,searchRecipe,exploreLatest,exploreRandom,submitRecipe,submitRecipeOnPost}
 
 
 

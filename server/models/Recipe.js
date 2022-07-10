@@ -7,24 +7,24 @@ const recipeSchema=new mongoose.Schema({
   },
   description:{
     type:String,
-    required:[true,"Siz name kiritishingiz kerak"]
+    required:[true,"Siz description kiritishingiz kerak"]
   },
   email:{
     type:String,
-    required:[true,"Siz name kiritishingiz kerak"]
+    required:[true,"Siz email kiritishingiz kerak"]
   },
   ingredients:{
     type:Array,
-    required:[true,"Siz name kiritishingiz kerak"]
+    required:[true,"Siz ingredients kiritishingiz kerak"]
   },
   category:{
     type:String,
     enum:['Thai','American','Chinese','Mexican','Indian'],
-    required:[true,"Siz name kiritishingiz kerak"]
+    // required:[true,"Siz category kiritishingiz kerak"]
   },
   image:{
     type:String,
-    required:[true,"Siz name kiritishingiz kerak"]
+    required:[true,"Siz image kiritishingiz kerak"]
   }
 })
 
