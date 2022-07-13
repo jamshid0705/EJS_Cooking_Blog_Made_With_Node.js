@@ -62,9 +62,9 @@ const exploreCateg=async(req,res)=>{
 const exploreCategById=async(req,res)=>{
   try {
 
-    const id=req.params.id
+    const name=req.params.id
     const limitNumber=20;
-    const categoriesById=await recipeModel.find({'category':id}).limit(limitNumber)
+    const categoriesById=await recipeModel.find({'category':name}).limit(limitNumber)
 
     res.render('categories',{title:'Cooking Blog - Categories',categoriesById})
   } catch (error) {
@@ -166,7 +166,7 @@ const submitRecipeOnPost=async(req,res)=>{
       email: req.body.email,
       ingredients: req.body.ingredients,
       category: req.body.category,
-      image:req.body.image
+      image:'american5.avif'
     });
     
     await newRecipe.save();
