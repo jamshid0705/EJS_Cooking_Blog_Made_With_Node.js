@@ -135,6 +135,7 @@ const exploreRandom=async(req,res)=>{
   try {
    
     const con=await recipeModel.find().countDocuments()  //savol
+    // console.log(con)
     const random=Math.floor(Math.random()*con)
     const recipe=await recipeModel.findOne().skip(random).exec() // savol
     res.render('explore-random',{title:'Cooking Blog - Explore-latest',recipe})
